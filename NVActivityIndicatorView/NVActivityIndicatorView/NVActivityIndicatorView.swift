@@ -476,7 +476,10 @@ public final class NVActivityIndicatorView: UIView {
         var animationRect = UIEdgeInsetsInsetRect(frame, UIEdgeInsetsMake(padding, padding, padding, padding))
         let minEdge = min(animationRect.width, animationRect.height)
 
-        layer.sublayers = nil
+        if(layer.sublayers != nil && (layer.sublayers?.count)! > 1){
+            layer.sublayers?.removeFirst((layer.sublayers?.count)! - 2)
+        }
+     
         animationRect.size = CGSize(width: minEdge, height: minEdge)
         animation.setUpAnimation(in: layer, size: animationRect.size, color: color)
     }
