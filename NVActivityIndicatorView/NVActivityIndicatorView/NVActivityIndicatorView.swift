@@ -477,7 +477,7 @@ public final class NVActivityIndicatorView: UIView {
         let minEdge = min(animationRect.width, animationRect.height)
 
         if(layer.sublayers != nil && (layer.sublayers?.count)! > 1){
-            layer.sublayers?.removeFirst((layer.sublayers?.count)! - 2)
+            layer.sublayers?.removeFirst((layer.sublayers?.count)!)
         }
      
         animationRect.size = CGSize(width: minEdge, height: minEdge)
