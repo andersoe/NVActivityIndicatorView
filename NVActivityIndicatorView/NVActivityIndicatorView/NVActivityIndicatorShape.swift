@@ -38,6 +38,7 @@ enum NVActivityIndicatorShape {
     case triangle
     case line
     case pacman
+    case heart
 
     func layerWith(size: CGSize, color: UIColor) -> CALayer {
         let layer: CAShapeLayer = CAShapeLayer()
@@ -45,6 +46,9 @@ enum NVActivityIndicatorShape {
         let lineWidth: CGFloat = 2
 
         switch self {
+        case .heart:
+            path = getHearts(rect: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+            layer.fillColor = color.cgColor
         case .circle:
             path.addArc(withCenter: CGPoint(x: size.width / 2, y: size.height / 2),
                         radius: size.width / 2,
@@ -148,5 +152,34 @@ enum NVActivityIndicatorShape {
         layer.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
 
         return layer
+    }
+    
+    func getHearts(rect: CGRect) -> UIBezierPath {
+        let bezierPath = UIBezierPath()
+        //Calculate Radius of Arcs using Pythagoras
+        let sideOne = rect.width * 0.4
+        let sideTwo = rect.height * 0.3
+        let arcRadius = sqrt(sideOne*sideOne + sideTwo*sideTwo)/2
+        
+        //Left Hand Curve
+        bezierPath.addArc(withCenter: CGPoint(x: rect.width * 0.3, y: rect.height * 0.35), radius: arcRadius, startAngle: degreesToRadians(integer: 135), endAngle: degreesToRadians(integer: 315), clockwise: true)
+        
+        //Top Centre Dip
+        bezierPath.addLine(to: CGPoint(x: rect.width/2, y: rect.height * 0.2))
+        
+        //Right Hand Curve
+        bezierPath.addArc(withCenter: CGPoint(x: rect.width * 0.7, y: rect.height * 0.35), radius: arcRadius, startAngle: degreesToRadians(integer: 225), endAngle: degreesToRadians(integer: 45), clockwise: true)
+        
+        //Right Bottom Line
+        bezierPath.addLine(to: CGPoint(x: rect.width * 0.5, y: rect.height * 0.95))
+        
+        //Left Bottom Line
+        bezierPath.close()
+        
+        return bezierPath
+    }
+    
+    func degreesToRadians(integer:Int) -> CGFloat{
+        return CGFloat(integer) * .pi / 180
     }
 }
